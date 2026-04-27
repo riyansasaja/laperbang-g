@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Http;
 
 class LoginApi extends Controller
 {
+   //route untuk view login
+   public function login()
+   {
+    return view('auth.login');
+   }
     //
     public function loginApi(Request $request){
      //form validation

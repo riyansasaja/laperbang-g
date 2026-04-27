@@ -12,6 +12,6 @@ Route::post('/search', [App\Http\Controllers\SearchController::class, 'search'])
 
 //Route ke api login
 Route::post('/api/login', [App\Http\Controllers\LoginApi::class, 'loginApi']);
-
+Route::get('/login', [App\Http\Controllers\LoginApi::class, 'login'])->name('login');
 
 

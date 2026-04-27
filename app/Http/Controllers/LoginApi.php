@@ -20,7 +20,7 @@ class LoginApi extends Controller
         'password' => 'required',
      ]);
      //response
-     $response = Http::post('http://localhost/siwas/public/api/login', [
+     $response = Http::post('https://api-laperbang.pta-manado.go.id/api/login', [
         'username' => $request->username,
         'password' => $request->password,
      ]);
@@ -34,7 +34,7 @@ class LoginApi extends Controller
         return redirect()->route('dashboard');
      }else{
         //login gagal
-        return redirect()->back()->with('error', 'Login gagal');
+        return redirect()->back()->with('error', 'User/Password yang Anda Masukkan Salah!');
      }
      
     }

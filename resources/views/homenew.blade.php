@@ -40,7 +40,7 @@
 				<div class="container-fluid justify-content-between">
 					<a class="navbar-brand fw-bold" href="#">LAPERBANG</a>
 					<div>
-						<a href="#" class="btn btn-light fw-semibold px-4 py-2">Login</a>
+						<a href="{{ route('login') }}" class="btn btn-light fw-semibold px-4 py-2">Login</a>
 					</div>
 				</div>
 			</nav>

@@ -26,16 +26,4 @@ class AdminController extends Controller
      }
     }
 
-    //show all satker
-    public function satker()
-    {
-        $token = session('token_api');
-        $response = Http::withToken($token)->get('https://api-laperbang.pta-manado.go.id/api/satker');
-        if($response->status() == 200){
-            $data = $response->json();
-            return view('admin.satker', compact('data'));
-        }else{
-            return redirect()->route('login')->with('error', 'Gagal mengambil data satker!');
-        }
-    }
 }

@@ -10,6 +10,8 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="{{ asset('sbadmin/css/styles.css') }}" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Toastr CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -65,5 +67,24 @@
         <script src="{{ asset('sbadmin/assets/demo/chart-bar-demo.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="{{ asset('sbadmin/js/datatables-simple-demo.js') }}"></script>
+        
+        <!-- jQuery (required for Toastr) -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <!-- Toastr JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-top-center",
+            }
+            @if(session('success'))
+                toastr.success("{{ session('success') }}");
+            @endif
+            
+            @if(session('error'))
+                toastr.error("{{ session('error') }}");
+            @endif
+        </script>
     </body>
 </html>

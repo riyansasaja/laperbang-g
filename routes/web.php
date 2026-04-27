@@ -23,7 +23,10 @@ Route::middleware(['token_api'])->group(function () {
         return view('admin.index');
     })->name('admin');
     Route::get('/admin/users', [App\Http\Controllers\AdminController::class, 'users'])->name('admin.users');
-    Route::get('/admin/satker', [App\Http\Controllers\AdminController::class, 'satker'])->name('admin.satker');
+    Route::get('/admin/satker', [App\Http\Controllers\SatkerController::class, 'index'])->name('admin.satker');
+    Route::post('/admin/satker', [App\Http\Controllers\SatkerController::class, 'store'])->name('admin.satker.create');
+    Route::put('/admin/satker/{id}', [App\Http\Controllers\SatkerController::class, 'update'])->name('admin.satker.update');
+    Route::delete('/admin/satker/{id}', [App\Http\Controllers\SatkerController::class, 'destroy'])->name('admin.satker.delete');
 });
 
 

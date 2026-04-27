@@ -7,6 +7,10 @@ Route::get('/', function () {
     return view('homenew');
 });
 
+Route::get('/admin', function () {
+    return view('admin.layouts.app');
+})->name('admin');
+
 //Route ke fungsi search
 Route::post('/search', [App\Http\Controllers\SearchController::class, 'search'])->name('search');
 

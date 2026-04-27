@@ -7,10 +7,17 @@ Route::get('/', function () {
     return view('homenew');
 });
 
-Route::get('/admin', function () {
-    return view('admin.layouts.app');
-})->name('admin');
+//route logout
+Route::get('/logout', [App\Http\Controllers\LoginApi::class, 'logout'])->name('logout');
 
+// Group untuk role admin & super admin yang membutuhkan token_api
+Route::middleware(['token_api'])->group(function () {
+    Route::get('/admin', function () {
+        return view('admin.index');
+    })->name('admin');
+
+    // Tambahkan route lain untuk admin & super admin di sini
+});
 //Route ke fungsi search
 Route::post('/search', [App\Http\Controllers\SearchController::class, 'search'])->name('search');
 

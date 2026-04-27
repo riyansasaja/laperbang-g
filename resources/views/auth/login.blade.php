@@ -52,6 +52,19 @@
     </script>
     @endif
 
+    @if(session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Login Berhasil',
+            text: '{{ session("success") }}',
+            confirmButtonColor: '#3085d6',
+            background: '#fff',
+            borderRadius: '1rem',
+        });
+    </script>
+    @endif  
+
     <script>
 		// Animasi loading saat form disubmit
 		document.querySelector('form').addEventListener('submit', function() {

@@ -46,9 +46,25 @@ class DokumenPerkaraController extends Controller
                 ]);
             }
 
+            $resData = $response->json();
+            $errorMessage = 'Terjadi kesalahan pada server API';
+
+            if (isset($resData['message'])) {
+                if (is_array($resData['message'])) {
+                    // Jika message berupa array (seperti validasi Laravel)
+                    $messages = [];
+                    foreach ($resData['message'] as $key => $value) {
+                        $messages[] = is_array($value) ? implode(', ', $value) : $value;
+                    }
+                    $errorMessage = implode(' | ', $messages);
+                } else {
+                    $errorMessage = $resData['message'];
+                }
+            }
+
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal mengunggah dokumen: ' . ($response->json()['message'] ?? 'Terjadi kesalahan pada server API'),
+                'message' => 'Gagal mengunggah dokumen: ' . $errorMessage,
             ], $response->status());
 
         } catch (\Exception $e) {

@@ -21,7 +21,9 @@
         <div class="card-body">
             @php 
                 // Cek apakah data dibungkus dalam key 'data' atau langsung array
-                $perkara = $data['data'] ?? $data; 
+                // $perkara = $data['data'] ?? $data; 
+                 $perkara = $data['perkara']['data'] ?? $data['perkara'];
+                 $jenisDokumen = $data['jenis_dokumen']['data'] ?? $data['jenis_dokumen'];
             @endphp
             
             <div class="row">

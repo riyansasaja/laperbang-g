@@ -69,13 +69,30 @@ class PengadilanController extends Controller
     public function show(string $id)
     {
             $token = session('token_api');
-            $response = Http::withToken($token)->get('https://api-laperbang.pta-manado.go.id/api/perkara/'.$id);
-            if($response->status() == 200){
-                $data = $response->json();
-                return view('master.pengadilan.show', compact('data'));   
+            //hit api get dengan pool
+          $responses = Http::pool(fn ($pool) => [
+            $pool->withToken($token)->get('https://api-laperbang.pta-manado.go.id/api/perkara/'.$id),
+            $pool->withToken($token)->get('https://api-laperbang.pta-manado.go.id/api/jenis-dokumen'),
+            ]);
+            
+            //cek response api 
+            if($responses[0]->status() == 200 && $responses[1]->status() == 200){
+                $data = [
+                    'perkara' => $responses[0]->json(),
+                    'jenis_dokumen' => $responses[1]->json(),
+                ];
+                return view('master.pengadilan.show', compact('data'));
             }else{
                 return redirect()->back()->with('error', 'Gagal mengambil data perkara!');
-            }       
+            }
+
+            // $response = Http::withToken($token)->get('https://api-laperbang.pta-manado.go.id/api/perkara/'.$id);
+            // if($response->status() == 200){
+            //     $data = $response->json();
+            //     return view('master.pengadilan.show', compact('data'));   
+            // }else{
+            //     return redirect()->back()->with('error', 'Gagal mengambil data perkara!');
+            // }       
     }
 
     /**
@@ -109,7 +126,8 @@ class PengadilanController extends Controller
             ]);
 
             if($response->status() == 200){
-                return redirect()->route('pengadilan')->with('success', 'Data Berhasil Diperbarui');
+                //retrun ke halaman show
+                return redirect()->route('pengadilan.show', $id)->with('success', 'Data Berhasil Diperbarui');
             }else{
                 return redirect()->back()->with('error', 'Data Gagal Diperbarui');
             }

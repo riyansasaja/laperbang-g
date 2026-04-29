@@ -37,5 +37,6 @@ Route::middleware(['token_user'])->group(function () {
     Route::get('/pengadilan/{id}', [App\Http\Controllers\PengadilanController::class, 'show'])->name('pengadilan.show');
     Route::get('/pengadilan/{id}/edit', [App\Http\Controllers\PengadilanController::class, 'edit'])->name('pengadilan.edit');
     Route::put('/pengadilan/{id}', [App\Http\Controllers\PengadilanController::class, 'update'])->name('pengadilan.update');
+    Route::post('/dokumen-perkara/upload', [App\Http\Controllers\DokumenPerkaraController::class, 'upload'])->name('dokumen.upload');
 });
 

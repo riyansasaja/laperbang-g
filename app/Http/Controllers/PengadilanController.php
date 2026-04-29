@@ -77,10 +77,15 @@ class PengadilanController extends Controller
             
             //cek response api 
             if($responses[0]->status() == 200 && $responses[1]->status() == 200){
-                $data = [
-                    'perkara' => $responses[0]->json(),
-                    'jenis_dokumen' => $responses[1]->json(),
-                ];
+
+                //colect jenis-dokumen
+                    $jenisDokumen = collect($responses[1]->json()['data']);
+                  $data = [
+        'perkara' => $responses[0]->json(),
+        'bundelA' => $jenisDokumen->where('bundel', 'Bundel A')->values(),
+        'bundelB' => $jenisDokumen->where('bundel', 'Bundel B')->values(),
+        'lainnya' => $jenisDokumen->where('bundel', 'Lainnya')->values(),
+    ];
                 return view('master.pengadilan.show', compact('data'));
             }else{
                 return redirect()->back()->with('error', 'Gagal mengambil data perkara!');

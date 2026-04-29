@@ -99,8 +99,9 @@
             </div>
         </div>
         <div class="card-body">
+            <!-- Bundel A -->
             <h5 class="mb-3">Tabel Upload Bundel A</h5>
-            <div class="table-responsive">
+            <div class="table-responsive mb-5">
                 <table class="table table-bordered table-hover" id="tableBundelA">
                     <thead class="table-primary">
                         <tr>
@@ -108,23 +109,167 @@
                             <th>Nama Dokumen</th>
                             <th>Nama File</th>
                             <th width="150" class="text-center">Action</th>
+                            <th class="text-center">Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($data['bundelA'] as $index => $item)
+                        @php
+                            $namaDokumen = $item['nama_dokumen'] ?? $item['namadokumen'];
+                            $dokumen = $data['uploadedDocs']->where('dokumen', $namaDokumen)->first();
+                        @endphp
                         <tr>
                             <td class="text-center">{{ $index + 1 }}</td>
-                            <td>{{ $item['nama_dokumen'] ?? $item['namadokumen'] }}</td>
-                            <td>
-                                <input type="file" class="form-control form-control-sm" id="file_{{ $item['id'] }}">
+                            <td>{{ $namaDokumen }}</td>
+                            <td id="td_file_{{ $item['id'] }}">
+                                <div class="container-input {{ $dokumen ? 'd-none' : '' }}" id="container_input_{{ $item['id'] }}">
+                                    <input type="file" class="form-control form-control-sm" id="file_{{ $item['id'] }}">
+                                </div>
+                                @if($dokumen)
+                                <div class="container-link d-flex align-items-center gap-2" id="container_link_{{ $item['id'] }}">
+                                    <a href="{{ $dokumen['link_dokumen'] ?? '#' }}" target="_blank" class="btn btn-sm btn-info text-white">
+                                        <i class="fas fa-file-pdf me-1"></i> Lihat Dokumen
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-warning btn-reupload" data-id="{{ $item['id'] }}">
+                                        <i class="fas fa-sync me-1"></i> Re-upload
+                                    </button>
+                                </div>
+                                @endif
                             </td>
                             <td class="text-center">
-                                <button type="button" class="btn btn-primary btn-sm btn-upload" 
+                                <button type="button" class="btn btn-primary btn-sm btn-upload {{ $dokumen ? 'd-none' : '' }}" 
+                                    id="btn_upload_{{ $item['id'] }}"
                                     data-id="{{ $item['id'] }}" 
                                     data-perkara="{{ $perkara['id'] }}">
                                     <i class="fas fa-upload me-1"></i> Upload
                                 </button>
                             </td>
+                            <td class="text-center">
+                                @if($dokumen)
+                                    <span class="badge bg-success">{{ $dokumen['status_dokumen'] ?? 'Uploaded' }}</span>
+                                @else
+                                    <span class="badge bg-danger">Not Uploaded</span>
+                                @endif
+                            </td>
+                            
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Bundel B -->
+            <h5 class="mb-3">Tabel Upload Bundel B</h5>
+            <div class="table-responsive mb-5">
+                <table class="table table-bordered table-hover" id="tableBundelB">
+                    <thead class="table-success">
+                        <tr>
+                            <th width="50" class="text-center">No</th>
+                            <th>Nama Dokumen</th>
+                            <th>Nama File</th>
+                            <th width="150" class="text-center">Action</th>
+                            <th>Status File</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($data['bundelB'] as $index => $item)
+                        @php
+                            $namaDokumen = $item['nama_dokumen'] ?? $item['namadokumen'];
+                            $dokumen = $data['uploadedDocs']->where('dokumen', $namaDokumen)->first();
+                        @endphp
+                        <tr>
+                            <td class="text-center">{{ $index + 1 }}</td>
+                            <td>{{ $namaDokumen }}</td>
+                            <td id="td_file_{{ $item['id'] }}">
+                                <div class="container-input {{ $dokumen ? 'd-none' : '' }}" id="container_input_{{ $item['id'] }}">
+                                    <input type="file" class="form-control form-control-sm" id="file_{{ $item['id'] }}">
+                                </div>
+                                @if($dokumen)
+                                <div class="container-link d-flex align-items-center gap-2" id="container_link_{{ $item['id'] }}">
+                                    <a href="{{ $dokumen['link_dokumen'] ?? '#' }}" target="_blank" class="btn btn-sm btn-info text-white">
+                                        <i class="fas fa-file-pdf me-1"></i> Lihat Dokumen
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-warning btn-reupload" data-id="{{ $item['id'] }}">
+                                        <i class="fas fa-sync me-1"></i> Re-upload
+                                    </button>
+                                </div>
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-primary btn-sm btn-upload {{ $dokumen ? 'd-none' : '' }}" 
+                                    id="btn_upload_{{ $item['id'] }}"
+                                    data-id="{{ $item['id'] }}" 
+                                    data-perkara="{{ $perkara['id'] }}">
+                                    <i class="fas fa-upload me-1"></i> Upload
+                                </button>
+                            </td>
+                            <td class="text-center">
+                                @if($dokumen)
+                                    <span class="badge bg-success">{{ $dokumen['status_dokumen'] ?? 'Uploaded' }}</span>
+                                @else
+                                    <span class="badge bg-danger">Not Uploaded</span>
+                                @endif
+                            </td>
+                            
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Lainnya -->
+            <h5 class="mb-3">Tabel Upload Dokumen Lainnya</h5>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="tableLainnya">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th width="50" class="text-center">No</th>
+                            <th>Nama Dokumen</th>
+                            <th>Nama File</th>
+                            <th width="150" class="text-center">Action</th>
+                            <th>Status File</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($data['lainnya'] as $index => $item)
+                        @php
+                            $namaDokumen = $item['nama_dokumen'] ?? $item['namadokumen'];
+                            $dokumen = $data['uploadedDocs']->where('dokumen', $namaDokumen)->first();
+                        @endphp
+                        <tr>
+                            <td class="text-center">{{ $index + 1 }}</td>
+                            <td>{{ $namaDokumen }}</td>
+                            <td id="td_file_{{ $item['id'] }}">
+                                <div class="container-input {{ $dokumen ? 'd-none' : '' }}" id="container_input_{{ $item['id'] }}">
+                                    <input type="file" class="form-control form-control-sm" id="file_{{ $item['id'] }}">
+                                </div>
+                                @if($dokumen)
+                                <div class="container-link d-flex align-items-center gap-2" id="container_link_{{ $item['id'] }}">
+                                    <a href="{{ $dokumen['link_dokumen'] ?? '#' }}" target="_blank" class="btn btn-sm btn-info text-white">
+                                        <i class="fas fa-file-pdf me-1"></i> Lihat Dokumen
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-warning btn-reupload" data-id="{{ $item['id'] }}">
+                                        <i class="fas fa-sync me-1"></i> Re-upload
+                                    </button>
+                                </div>
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-primary btn-sm btn-upload {{ $dokumen ? 'd-none' : '' }}" 
+                                    id="btn_upload_{{ $item['id'] }}"
+                                    data-id="{{ $item['id'] }}" 
+                                    data-perkara="{{ $perkara['id'] }}">
+                                    <i class="fas fa-upload me-1"></i> Upload
+                                </button>
+                            </td>
+                            <td class="text-center">
+                                @if($dokumen)
+                                    <span class="badge bg-success">{{ $dokumen['status_dokumen'] ?? 'Uploaded' }}</span>
+                                @else
+                                    <span class="badge bg-danger">Not Uploaded</span>
+                                @endif
+                            </td>
+                            
                         </tr>
                         @endforeach
                     </tbody>
@@ -139,6 +284,14 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 $(document).ready(function() {
+    // Handle Re-upload button
+    $(document).on('click', '.btn-reupload', function() {
+        const id = $(this).data('id');
+        $(`#container_link_${id}`).addClass('d-none');
+        $(`#container_input_${id}`).removeClass('d-none');
+        $(`#btn_upload_${id}`).removeClass('d-none');
+    });
+
     $('.btn-upload').on('click', function() {
         const jenisDokumenId = $(this).data('id');
         const perkaraBandingId = $(this).data('perkara');
@@ -168,8 +321,16 @@ $(document).ready(function() {
             success: function(response) {
                 btn.prop('disabled', false).html('<i class="fas fa-upload me-1"></i> Upload');
                 if (response.success) {
-                    Swal.fire('Berhasil', response.message, 'success');
-                    fileInput.value = ''; // Reset file input
+                    Swal.fire({
+                        title: 'Berhasil',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
+                    });
                 } else {
                     Swal.fire('Gagal', response.message, 'error');
                 }

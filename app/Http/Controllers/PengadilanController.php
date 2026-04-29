@@ -73,18 +73,25 @@ class PengadilanController extends Controller
           $responses = Http::pool(fn ($pool) => [
             $pool->withToken($token)->get('https://api-laperbang.pta-manado.go.id/api/perkara/'.$id),
             $pool->withToken($token)->get('https://api-laperbang.pta-manado.go.id/api/jenis-dokumen'),
+            $pool->withToken($token)->get('https://api-laperbang.pta-manado.go.id/api/perkara/'.$id.'/document-list'),
             ]);
             
             //cek response api 
-            if($responses[0]->status() == 200 && $responses[1]->status() == 200){
+            if($responses[0]->status() == 200 && $responses[1]->status() == 200 && $responses[2]->status() == 200){
 
                 //colect jenis-dokumen
                     $jenisDokumen = collect($responses[1]->json()['data']);
+                    $docJson = $responses[2]->json();
+                    $uploadedDocs = collect($docJson['bundelA'] ?? [])
+                        ->merge($docJson['bundelB'] ?? [])
+                        ->merge($docJson['lainnya'] ?? []);
+
                   $data = [
         'perkara' => $responses[0]->json(),
         'bundelA' => $jenisDokumen->where('bundel', 'Bundel A')->values(),
         'bundelB' => $jenisDokumen->where('bundel', 'Bundel B')->values(),
         'lainnya' => $jenisDokumen->where('bundel', 'Lainnya')->values(),
+        'uploadedDocs' => $uploadedDocs
     ];
                 return view('master.pengadilan.show', compact('data'));
             }else{

@@ -18,7 +18,7 @@ class LoginApi extends Controller
            if ($role == 'admin' || $role == 'superadmin') {
                return redirect()->route('admin');
            } else {
-               return redirect()->route('pos');
+               return redirect()->route('pengadilan');
            }
        }
 
@@ -50,7 +50,7 @@ class LoginApi extends Controller
         if($data['role'] == 'admin' || $data['role'] == 'superadmin'){
             return redirect()->route('admin');
         }else{
-            return redirect()->route('pos');
+            return redirect()->route('pengadilan');
         }
      }else{
         //login gagal

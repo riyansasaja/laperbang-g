@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'token_api' => \App\Http\Middleware\CheckApiToken::class,
+            'token_user' => \App\Http\Middleware\CheckRoleUser::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -20,7 +20,7 @@ class SatkerController extends Controller
             $data = $response->json();
             return view('admin.satker', compact('data'));
         }else{
-            return redirect()->route('login')->with('error', 'Gagal mengambil data satker!');
+            return redirect()->route('admin.satker')->with('error', 'Gagal mengambil data satker!');
         }
     }
 

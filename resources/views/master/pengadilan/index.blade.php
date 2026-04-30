@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Data Perkara</h1>
+    <h1 class="mt-4">Daftar Perkara Banding</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Daftar Perkara Banding</li>
+        <li class="breadcrumb-item active">Daftar Perkara</li>
     </ol>
 
     <div class="card mb-4">
@@ -26,6 +26,7 @@
                         <th>No. Perkara Banding</th>
                         <th>Tgl Permohonan</th>
                         <th>Tgl Reg. Banding</th>
+                        <th>Status Perkara</th>
                         <th width="12%" class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -43,6 +44,7 @@
                                 <td>{{ $item['nomor_perkara_banding'] ?? '-' }}</td>
                                 <td>{{ $item['tanggal_permohonan'] ?? '-' }}</td>
                                 <td>{{ $item['tanggal_reg_banding'] ?? '-' }}</td>
+                                <td>{{ $item['status'] ?? '-' }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('pengadilan.show', $item['id']) }}" class="btn btn-sm btn-info text-white" title="View Detil">
                                         <i class="fas fa-eye"></i> Detil
